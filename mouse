@@ -1,0 +1,45 @@
+import pygame
+ 
+ 
+SCREEN = (600, 400)
+FPS = 60
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
+ 
+launch = False
+ 
+ 
+pygame.init()
+ 
+sc = pygame.display.set_mode(SCREEN)
+pygame.display.set_caption("Game")
+play = True
+ 
+pos = tuple()
+ 
+ 
+while play:
+ 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            play = False
+            pygame.quit()
+        # определяем координаты клика
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not launch:
+            sc.fill(BLACK)
+            pygame.display.update()
+            pos = event.pos
+            x = pos[0]
+            y = SCREEN[1]
+            launch = True
+    if pos:
+        if y >= pos[1]:
+            pygame.draw.circle(sc, RED, (x, y), 7)
+            pygame.display.update()
+            y -= 7
+        else:
+            launch = False
+            pygame.draw.rect(sc, RED, (pos[0] - 20, y - 20, 40, 40))
+            pygame.display.update()
+ 
+    pygame.time.Clock().tick(FPS)
